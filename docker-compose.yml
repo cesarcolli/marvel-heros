@@ -1,0 +1,25 @@
+version: "3.8"
+
+networks:
+  backend:
+    external: false
+    name: backend
+services:
+  marveldb:
+    networks:
+      - backend
+    image: mongo:latest
+    container_name: marveldb
+    ports:
+      - 27017:27017
+  albo-marvel-image:
+    environment:
+      - MONGO_HOST=marveldb
+    networks:
+      - backend
+    image: albo-marvel-image
+    container_name: albo-marvel-image
+    ports:
+      - 8080:8080
+    links:
+      - marveldb
